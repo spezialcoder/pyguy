@@ -34,13 +34,8 @@ class guy:
 				raise TypeError("Older must be int")
 		delta = now-older
 		return delta
-	def add_location(self,location):
-		self.values["location"] = location
-
-
-
-
-
+	def add_extra(self,theme,index):
+		self.values[theme] = index
 
 
 
