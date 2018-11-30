@@ -2,6 +2,13 @@
 
 #Pyguy
 import datetime
+#################################################Exceptions#########################################################
+class EditError(Exception):
+	def __init__(self,reason):
+		self.reason = reason
+	def __str__(self):
+		return self.reason
+#####################################################################################################################
 class guy:
 	def __init__(self,name,older,gender,eye_color,size,language):
 			self.name = name
@@ -18,6 +25,7 @@ class guy:
 			self.eye_color = eye_color
 			self.size = size
 			self.language = language
+			self.sign = False
 			self.values = {"name" : self.name,"first_name" : self.first_name,"second_name" : self.second_name, "older" : self.older, "gender" : self.gender, "eye_color" : self.eye_color, "size" : self.size,"language" : self.language}
 
 	def get_values(self):	
@@ -34,14 +42,27 @@ class guy:
 				raise TypeError("Older must be int")
 		delta = now-older
 		return delta
+
 	def add_extra(self,theme,index):
-		self.values[theme] = index
-	
-	def edit(self,theme,index):
-		if theme in self.values.keys():
+		if not self.sign:
 			self.values[theme] = index
 		else:
-			raise IndexError("Theme not exist")
+			 raise EditError("Cannot change data, signed instance")
+	
+	def edit(self,theme,index):
+		if not self.sign:
+			if theme in self.values.keys():
+				self.values[theme] = index
+			else:
+				raise IndexError("Theme not exist")
+		else:
+			raise EditError("Cannot change data, signed instance")
+	def sign_guy(self):	
+		if not self.sign:
+			self.sign = True
+		else:
+			raise EditError("Cannot change data, signed instance")
+####################################################################################################################################
 
 class group:
 	def __init__(self,group_name):
@@ -74,7 +95,7 @@ class group:
 			command = "member.add_extra('"+name+"','-')"
 			exec(command)
 			
-			
+
 
 
 
