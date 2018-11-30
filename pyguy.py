@@ -36,8 +36,45 @@ class guy:
 		return delta
 	def add_extra(self,theme,index):
 		self.values[theme] = index
+	
+	def edit(self,theme,index):
+		if theme in self.values.keys():
+			self.values[theme] = index
+		else:
+			raise IndexError("Theme not exist")
 
+class group:
+	def __init__(self,group_name):
+		self.name = group_name
+		self.members = []
+		self.value = {"Group_Name" : self.name,"members" : self.members}
 
+	def add(self,newguy):
+		ty = str(type(newguy))
+		if ty == "<type 'instance'>":
+			self.members.append(newguy)
+		else:
+			raise TypeError("Require instance")
+	
+	def remove(self,newguy):
+		ty = str(type(newguy))
+		if  ty == "<type 'instance'>":
+			if newguy in self.members:
+				self.members.remove(newguy)
+			else:
+				raise IndexError("Member not exist")
+		else:
+			raise TypeError("Require instance")
+
+	def get_values(self):
+		return self.value
+		
+	def add_theme(self,name):
+		for member in self.members:
+			command = "member.add_extra('"+name+"','-')"
+			exec(command)
+			
+			
 
 
 
